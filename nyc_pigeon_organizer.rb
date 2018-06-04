@@ -1,23 +1,21 @@
 require 'pry'
 
 def nyc_pigeon_organizer(data)
-  pigeon_hash = {}
-  data.each do |attribute, info|
-    info.each do |type, names|
-      names.each do |pigeon|
-        if pigeon_hash[pigeon] == nil
-          pigeon_hash[pigeon] = {}
+  pigeon_list = {}
+  data.each do |attribute, att_info|
+    att_info.each do |type, pigeons|
+      pigeons.each do |pigeon|
+        if pigeon_list.include?(pigeon)
+          if pigeon_list[pigeon].include?(attribute)
+            pigeon_list[pigeon][attribute] << type.to_s
+          else
+            pigeon_list[pigeon][attribute] = [type.to_s]
+          end
         else
-          pigeon_hash[pigeon].merge({attribute => []})
+          pigeon_list[pigeon] = {attribute => [type.to_s]}
         end
-        pigeon_hash[pigeon][attribute] = []
-      end
-    end
-    info.each do |type, names|
-      names.each do |pigeon|
-        pigeon_hash[pigeon][attribute] << type.to_s
       end
     end
   end
-  pigeon_hash
+  pigeon_list
 end
